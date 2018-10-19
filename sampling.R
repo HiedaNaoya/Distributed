@@ -1,5 +1,9 @@
 #この関数を実行してみたらわかると思うが, 実験回数$Nsim$が小さいとほぼ知りたい事象は観測できない.
 # Simple Monte Carlo Method
+install.packages(tidyverse)
+install.packages(reshape2)
+library(tidyverse)
+library(reshape2)
 sim.SMC <-function(Nsim, n, p, X){
   x <- rbinom(Nsim, size=n, prob=p)
   out <- sum( x >=X )/Nsim 
@@ -21,7 +25,6 @@ out1 <- sim.IS(100, n=100, p=0.5, X=70, theta=log(7/3))
 out1
 out2 <- sim.IS(100000, n=100, p=0.5, X=70, theta=log(7/3))
 out2
-```
 
 #単純モンテカルロ法では, 1000回の実験から得ることが出来なかった推定値が$`r out1`$と推定できている.
 #100,000回行えば, ほぼ正確な値を推定可能.
@@ -74,7 +77,8 @@ plot_coin <- cbind(plot_hikaku[,c(1,3)],IS_up=plot_up_2d[,1],
                    SMC_up=plot_up_2d[,2],IS_down=plot_douwn_2d[,1],
                    SMC_down=max(plot_douwn_2d[,2],0))
 
-
+prob <- 1 - pbinom(69, size = 100, prob = 0.5)
+prob
 ggplot() +
   geom_errorbar(data=plot_coin,
                 aes(x=rownames(plot_coin),ymin=IS_up,ymax=IS_down),color="red")+
